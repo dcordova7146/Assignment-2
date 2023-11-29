@@ -1,5 +1,7 @@
 #include <vector> 
 #include <iterator>
+#include <algorithm>
+#include <chrono>
 
 //1) HalfSelectionSort.hpp
 int halfSelectionSort ( std::vector<int>& nums, int& duration ){
@@ -27,11 +29,12 @@ int halfSelectionSort ( std::vector<int>& nums, int& duration ){
         nums[smallest] = temp;
     }
     
-    return nums[middle];
+    return nums[middle]; //return middle element
 }
 
 //2) StandardSort.hpp
 int standardSort ( std::vector<int>& nums, int& duration ){
+    int length = nums.length();
     int middle =0;
     if(length %2 !0){ //if length is odd
         middle = (length+1)/2;
@@ -46,6 +49,19 @@ int standardSort ( std::vector<int>& nums, int& duration ){
 
 //3) MergeSort.hpp
 int mergeSort ( std::vector<int>& nums, int& duration ){
+    //chrono time 
+    mergeS(nums);
+    int length = nums.length();
+    int middle =0;
+    if(length %2 !0){ //if length is odd
+        return middle = (length+1)/2;
+    }else{
+        return middle = length/2;
+    }
+
+}
+
+void mergeS(std::vector<int>& nums){
     std::vector<int> leftHalf;
     std::vector<int> rightHalf;
     int length = nums.length();
@@ -78,11 +94,10 @@ int mergeSort ( std::vector<int>& nums, int& duration ){
     std::vector<int> rightHalf(nums.begin() + middle, nums.end());
 
     // Recursively sort the two halves
-    mergeSort(leftHalf, duration);
-    mergeSort(rightHalf, duration);
+    mergeS(leftHalf);
+    mergeS(rightHalf);
 
-
-
+    
 }
 
 //4) InPlaceMergeSort.hpp
@@ -91,15 +106,51 @@ int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
 }
 
 //5) HalfHeapSort.hpp
+// should be min heap to delete all values lower than median
 int halfHeapSort ( std::vector<int>& nums, int& duration ){
 
+    for( int i = nums.size( ) / 2 - 1; i >= 0; --i ){ /* buildHeap */
+        percDown( nums, i, nums.size( ) );
+        for( int j = nums.size( ) - 1; j > 0; --j ){
+            std::swap( nums[ 0 ], nums[ j ] ); /* deleteMax */
+            percDown( nums, 0, j );
+        }
+    }
 }
+
+16 /**
+17 * Internal method for heapsort.
+18 * i is the index of an item in the heap.
+19 * Returns the index of the left child.
+20 */
+ inline int leftChild( int i )
+ {
+ return 2 * i + 1;
+ }
+
+
+
 // parameter "hole" is the index of the hole.
 // percDown precondition: value to be inserted into hole is stored in heap at index 0. The hole itself may be in an unspecified state - i.e. it doesn't matter what's in it since you'll be overwriting it anyway.
 // percDown postcondition: hole has been moved into correct place and value has been inserted into hole.
 void percDown ( std::vector<int>& heap, std::vector<int>::size_type hole ){
 
+ int child;
+ int tmp;
+
+ for( tmp = std::move( heap[ i ] ); leftChild( i ) < n; i = child )
+ {
+ child = leftChild( i );
+ if( child != n - 1 && heap[ child ] < heap[ child +1])
+ ++child;
+ if( tmp < heap[ child ] )
+heap[ i ] = std::move( heap[ child ] );
+    else
+    break;
+    }
+    heap[ i ] = std::move( tmp );
 }
+
 void buildHeap ( std::vector<int>& heap){
 
 }
