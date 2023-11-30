@@ -69,7 +69,6 @@ void mergeS(std::vector<int>& nums){
     if(length <= 1){ //base case
         return;
     }
-
     int j =0; //index for right half array
 
     for(auto it = nums.begin();it < nums.length();it++){
@@ -81,7 +80,7 @@ void mergeS(std::vector<int>& nums){
         }
         
     }
-    
+
     int middle =0;
     if(length %2 !0){ //if length is odd
         middle = (length+1)/2;
@@ -91,11 +90,14 @@ void mergeS(std::vector<int>& nums){
     
     // Create left and right halves
     std::vector<int> leftHalf(nums.begin(), nums.begin() + middle);
-    std::vector<int> rightHalf(nums.begin() + middle, nums.end());
+    std::vector<int> rightHalf(nums.begin() + middle+1, nums.end());
 
     // Recursively sort the two halves
     mergeS(leftHalf);
     mergeS(rightHalf);
+
+    
+
 
     
 }
@@ -187,3 +189,22 @@ int medianOfMediansMethod ( std::vector<int>& nums, int& duration ){
 int medianOfMedians ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
 
 }
+
+
+/*
+to track time with chrono use steady clock
+auto start = std::chrono::steady_clock::now()
+auto end = std::chjrono " "
+do same for end
+the use cast durrations(unit, (end-start) )*/
+
+
+//start of warpper function
+auto start = std::chrono::steady_clock::now();
+// algorth goes here
+//once median is found
+auto end = std::chrono::steady_clock::now();
+
+auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+duration = diff.count();
+// return medain 
