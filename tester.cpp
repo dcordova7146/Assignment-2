@@ -31,7 +31,7 @@ int main(){
     
     auto input1 = unsorted;
     std::vector<int> control = unsorted;
-    std::cout << "Median: " << halfSelectionSort(input1,duration) << std::endl;
+    std::cout << std::endl << "Median: " << mergeSort(input1,duration) << std::endl;
     std::sort(control.begin(), control.end());
     std::cout << "Median of control: " << control[findMedianIndex(control)] << std::endl;
 
@@ -48,12 +48,12 @@ int main(){
         
     // }
 
-    // // Compare both vectors
-    // if (input1 == control) {
-    //     std::cout << "Your algorithm produces correct results.\n";
-    // } else {
-    //     std::cout << "Your algorithm produces incorrect results.\n";
-    // }
+    // Compare both vectors
+    if (input1 == control) {
+        std::cout << "Your algorithm produces correct results.\n";
+    } else {
+        std::cout << "Your algorithm produces incorrect results.\n";
+    }
     std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
 
 

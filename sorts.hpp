@@ -7,6 +7,9 @@
 #include <string>
 #include <sstream>
 
+typedef std::vector<int>::iterator iter; 
+
+
 int findMedianIndex(std::vector<int>& nums){
     int size = nums.size();
     int mid = 0;
@@ -59,87 +62,128 @@ int standardSort ( std::vector<int>& nums, int& duration ){
 
 }
 
+
+void mergeSSort(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
+    //make sure to create left and right arrays this below should be in place
+    if(std::distance(left,right) >1){
+        std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
+
+        mergeSSort(array,left,mid);
+        mergeSSort(array,mid,right);
+
+        std::vector<int> leftHalf(left,mid);
+        std::vector<int> rightHalf(mid,right);
+
+
+        std::merge(leftHalf.begin(),leftHalf.end(),rightHalf.begin(),rightHalf.end(),left);
+    }
+
+    
+}
 //3) MergeSort.hpp
 int mergeSort ( std::vector<int>& nums, int& duration ){
     //start of warpper function
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
-
+    mergeSSort(nums,nums.begin(),nums.end());
     //once median is found
     auto end = std::chrono::steady_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
     duration = diff.count();
 
     // return medain 
-    return ;
+    return nums[findMedianIndex(nums)];
 }
 
-void mergeSort(std::vector<int> iterator left, std::vector<int> iterator right){
-    if(std::distance(left,right) >1){
-        auto mid = left + (std::distance(left,right)/2)
-        mergeSort(left,mid);
-        mergeSort(mid,right);
 
-        
+
+
+
+
+
+void mergeSSSort(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
+    //make sure to create left and right arrays this below should be in place
+    if(std::distance(left,right) >1){
+        std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
+
+        mergeSSSort(array,left,mid);
+        mergeSSSort(array,mid,right);
+
+
+        std::inplace_merge(left,mid,right);
     }
 
     
 }
+//4) InPlaceMergeSort.hpp
+int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
+    //start of warpper function
+    auto start = std::chrono::steady_clock::now();
+    // algorth goes here
+    mergeSSSort(nums,nums.begin(),nums.end());
+    //once median is found
+    auto end = std::chrono::steady_clock::now();
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+    duration = diff.count();
 
-// //4) InPlaceMergeSort.hpp
-// int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
+    // return medain 
+    return nums[findMedianIndex(nums)];
 
-// }
-
-// //5) HalfHeapSort.hpp
-// // should be min heap to delete all values lower than median
-// int halfHeapSort ( std::vector<int>& nums, int& duration ){
-
-//     for( int i = nums.size( ) / 2 - 1; i >= 0; --i ){ /* buildHeap */
-//         percDown( nums, i, nums.size( ) );
-//         for( int j = nums.size( ) - 1; j > 0; --j ){
-//             std::swap( nums[ 0 ], nums[ j ] ); /* deleteMax */
-//             percDown( nums, 0, j );
-//         }
-//     }
-// }
-
-//  /**
-// 17 * Internal method for heapsort.
-// 18 * i is the index of an item in the heap.
-// 19 * Returns the index of the left child.
-// 20 */
-//  inline int leftChild( int i )
-//  {
-//  return 2 * i + 1;
-//  }
+}
 
 
 
-// // parameter "hole" is the index of the hole.
-// // percDown precondition: value to be inserted into hole is stored in heap at index 0. The hole itself may be in an unspecified state - i.e. it doesn't matter what's in it since you'll be overwriting it anyway.
-// // percDown postcondition: hole has been moved into correct place and value has been inserted into hole.
-// void percDown ( std::vector<int>& heap, std::vector<int>::size_type hole ){
 
-//  int child;
-//  int tmp;
 
-//  for( tmp = std::move( heap[ i ] ); leftChild( i ) < n; i = child )
-//  {
-//  child = leftChild( i );
-//  if( child != n - 1 && heap[ child ] < heap[ child +1])
-//  ++child;
-//  if( tmp < heap[ child ] )
-// heap[ i ] = std::move( heap[ child ] );
-//     else
-//     break;
-//     }
-//     heap[ i ] = std::move( tmp );
-// }
+//5) HalfHeapSort.hpp
+// should be min heap to delete all values lower than median
+int halfHeapSort ( std::vector<int>& nums, int& duration ){
 
-// void buildHeap ( std::vector<int>& heap){
+    for( int i = nums.size( ) / 2 - 1; i >= 0; --i ){ /* buildHeap */
+        percDown( nums, i, nums.size( ) );
+        for( int j = nums.size( ) - 1; j > 0; --j ){
+            std::swap( nums[ 0 ], nums[ j ] ); /* deleteMax */
+            percDown( nums, 0, j );
+        }
+    }
+}
 
-// }
+ /**
+17 * Internal method for heapsort.
+18 * i is the index of an item in the heap.
+19 * Returns the index of the left child.
+20 */
+ inline int leftChild( int i )
+ {
+ return 2 * i + 1;
+ }
+
+
+
+// parameter "hole" is the index of the hole.
+// percDown precondition: value to be inserted into hole is stored in heap at index 0. The hole itself may be in an unspecified state - i.e. it doesn't matter what's in it since you'll be overwriting it anyway.
+// percDown postcondition: hole has been moved into correct place and value has been inserted into hole.
+void percDown ( std::vector<int>& heap, std::vector<int>::size_type hole ){
+
+ int child;
+ int tmp;
+
+ for( tmp = std::move( heap[ i ] ); leftChild( i ) < n; i = child )
+ {
+ child = leftChild( i );
+ if( child != n - 1 && heap[ child ] < heap[ child +1])
+ ++child;
+ if( tmp < heap[ child ] )
+heap[ i ] = std::move( heap[ child ] );
+    else
+    break;
+    }
+    heap[ i ] = std::move( tmp );
+}
+
+void buildHeap ( std::vector<int>& heap){
+
+}
 
 // //6) QuickSelect.hpp
 // int quickSelect ( std::vector<int>& nums, int& duration ){
@@ -174,13 +218,13 @@ void mergeSort(std::vector<int> iterator left, std::vector<int> iterator right){
 
 // }
 
-//start of warpper function
-    auto start = std::chrono::steady_clock::now();
-// algorth goes here
-//once median is found
-    auto end = std::chrono::steady_clock::now();
+    // //start of warpper function
+    // auto start = std::chrono::steady_clock::now();
+    // // algorth goes here
+    // //once median is found
+    // auto end = std::chrono::steady_clock::now();
 
-    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
-    duration = diff.count();
-// return medain 
-    return nums[mid];
+    // auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+    // duration = diff.count();
+    // // return medain 
+    // return nums[mid];
