@@ -6,6 +6,8 @@
 //1) HalfSelectionSort.hpp
 int halfSelectionSort ( std::vector<int>& nums, int& duration ){
     //selection sort compares the the left most unsorted element with every element after it keeping track of the smallest in the list then at the end swapping ith the smallest in the list
+    auto start = std::chrono::steady_clock::now();
+
     int length = nums.length();
     int middle = 0;
 
@@ -29,6 +31,10 @@ int halfSelectionSort ( std::vector<int>& nums, int& duration ){
         nums[smallest] = temp;
     }
     
+    auto end = std::chrono::steady_clock::now();
+
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+    duration = diff.count();
     return nums[middle]; //return middle element
 }
 
@@ -67,7 +73,7 @@ void mergeS(std::vector<int>& nums){
     int length = nums.length();
 
     if(length <= 1){ //base case
-        return;
+        return; 
     }
     int j =0; //index for right half array
 
@@ -189,15 +195,6 @@ int medianOfMediansMethod ( std::vector<int>& nums, int& duration ){
 int medianOfMedians ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
 
 }
-
-
-/*
-to track time with chrono use steady clock
-auto start = std::chrono::steady_clock::now()
-auto end = std::chjrono " "
-do same for end
-the use cast durrations(unit, (end-start) )*/
-
 
 //start of warpper function
 auto start = std::chrono::steady_clock::now();
