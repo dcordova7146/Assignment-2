@@ -9,7 +9,6 @@
 
 typedef std::vector<int>::iterator iter; 
 
-
 int findMedianIndex(std::vector<int>& nums){
     int size = nums.size();
     int mid = 0;
@@ -44,8 +43,6 @@ int halfSelectionSort ( std::vector<int>& nums, int& duration ){
 
 }
 
-
-
 //2) StandardSort.hpp
 int standardSort ( std::vector<int>& nums, int& duration ){
     auto start = std::chrono::steady_clock::now();
@@ -62,14 +59,13 @@ int standardSort ( std::vector<int>& nums, int& duration ){
 
 }
 
-
-void mergeSSort(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
+void merge(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
     //make sure to create left and right arrays this below should be in place
     if(std::distance(left,right) >1){
         std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
 
-        mergeSSort(array,left,mid);
-        mergeSSort(array,mid,right);
+        merge(array,left,mid);
+        merge(array,mid,right);
 
         std::vector<int> leftHalf(left,mid);
         std::vector<int> rightHalf(mid,right);
@@ -85,7 +81,7 @@ int mergeSort ( std::vector<int>& nums, int& duration ){
     //start of warpper function
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
-    mergeSSort(nums,nums.begin(),nums.end());
+    merge(nums,nums.begin(),nums.end());
     //once median is found
     auto end = std::chrono::steady_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
@@ -95,19 +91,13 @@ int mergeSort ( std::vector<int>& nums, int& duration ){
     return nums[findMedianIndex(nums)];
 }
 
-
-
-
-
-
-
-void mergeSSSort(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
+void inPlaceMerge(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
     //make sure to create left and right arrays this below should be in place
     if(std::distance(left,right) >1){
         std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
 
-        mergeSSSort(array,left,mid);
-        mergeSSSort(array,mid,right);
+        inPlaceMerge(array,left,mid);
+        inPlaceMerge(array,mid,right);
 
 
         std::inplace_merge(left,mid,right);
@@ -120,7 +110,7 @@ int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
     //start of warpper function
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
-    mergeSSSort(nums,nums.begin(),nums.end());
+    inPlaceMerge(nums,nums.begin(),nums.end());
     //once median is found
     auto end = std::chrono::steady_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
@@ -131,70 +121,79 @@ int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
 
 }
 
+inline int leftChild(int i){
+    return 2 * i + 1; //left child = 2*parent +1 to account for 0 index
+}
+void percDown (std::vector<int>& heap, std::vector<int>::size_type hole){
+    int child;
+    int tmp;
 
-
-
-
-//5) HalfHeapSort.hpp
-// should be min heap to delete all values lower than median
-int halfHeapSort ( std::vector<int>& nums, int& duration ){
-
-    for( int i = nums.size( ) / 2 - 1; i >= 0; --i ){ /* buildHeap */
-        percDown( nums, i, nums.size( ) );
-        for( int j = nums.size( ) - 1; j > 0; --j ){
-            std::swap( nums[ 0 ], nums[ j ] ); /* deleteMax */
-            percDown( nums, 0, j );
-        }
+    for(tmp = std::move(heap[hole]); leftChild(hole) < heap.size(); hole = child) //textbook implementation
+    {
+        child = leftChild(hole);
+        if(child != heap.size() - 1 && heap[child] > heap[child +1])
+            ++child;
+        if(tmp > heap[child])
+            heap[hole] = std::move(heap[child]);
+        else
+        break;
     }
+    heap[hole] = std::move(tmp);
+}
+void buildHeap ( std::vector<int>& heap){
+    for(int i = heap.size()/2-1; i >= 0; --i) /* buildHeap */
+        percDown(heap, i);
 }
 
- /**
-17 * Internal method for heapsort.
-18 * i is the index of an item in the heap.
-19 * Returns the index of the left child.
-20 */
- inline int leftChild( int i )
- {
- return 2 * i + 1;
+ int halfHeapSort (std::vector<int>& nums, int& duration){
+    auto start = std::chrono::steady_clock::now();
+    //move first element to the back of the vector
+    nums.push_back(nums[0]);
+    buildHeap(nums);
+    int middle = nums.size()/2;
+    for(int j = nums.size()-1; j> middle+1; j--)
+    {
+        std::swap(nums[0], nums[j]); //precondition of percolate
+        nums.pop_back(); //literally delete min
+        percDown( nums, 0);
+    }
+    //once median is found which should be the root at index 1
+    auto end = std::chrono::steady_clock::now();
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+    duration = diff.count();
+    // return medain 
+    return nums[1];
  }
 
+//6) QuickSelect.hpp
+int quickSelect ( std::vector<int>& nums, int& duration ){
 
 
-// parameter "hole" is the index of the hole.
-// percDown precondition: value to be inserted into hole is stored in heap at index 0. The hole itself may be in an unspecified state - i.e. it doesn't matter what's in it since you'll be overwriting it anyway.
-// percDown postcondition: hole has been moved into correct place and value has been inserted into hole.
-void percDown ( std::vector<int>& heap, std::vector<int>::size_type hole ){
+}
 
- int child;
- int tmp;
-
- for( tmp = std::move( heap[ i ] ); leftChild( i ) < n; i = child )
- {
- child = leftChild( i );
- if( child != n - 1 && heap[ child ] < heap[ child +1])
- ++child;
- if( tmp < heap[ child ] )
-heap[ i ] = std::move( heap[ child ] );
-    else
-    break;
+int medianof3(std::vector<int>& nums){ 
+    auto left = nums.begin();
+    auto right = nums.end()-1;
+    auto mid = nums.begin() + nums.size()/2;
+    if(*mid < *left){
+        std::iter_swap(left,mid);
     }
-    heap[ i ] = std::move( tmp );
+    if(*right < *left){
+        std::iter_swap(left,right);
+    }
+    if(*right < *mid){
+        std::iter_swap(mid,right);
+    }
+    std::iter_swap(mid,right);
+    return *right;
 }
 
-void buildHeap ( std::vector<int>& heap){
+// hoarePartition precondition: low points to the first element in the subarray to be partitioned. The pivot is the last element in the subarray to be partitioned, and is pointed to by high.
+// hoarePartition returns an iterator to the pivot after it's placed.
+//Note that this implementation of hoarePartition makes it usable with different pivot selection methods, but also requires that you select your pivot and swap it into the last position prior to calling hoarePartition.
+std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
 
 }
-
-// //6) QuickSelect.hpp
-// int quickSelect ( std::vector<int>& nums, int& duration ){
-
-// }
-// // hoarePartition precondition: low points to the first element in the subarray to be partitioned. The pivot is the last element in the subarray to be partitioned, and is pointed to by high.
-// // hoarePartition returns an iterator to the pivot after it's placed.
-// //Note that this implementation of hoarePartition makes it usable with different pivot selection methods, but also requires that you select your pivot and swap it into the last position prior to calling hoarePartition.
-// std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
-
-// }
 
 // //7) WorstCaseQuickSelect.hpp
 // // worstCaseQuickSelect generates a worst-case input for a quickselect that uses median-of-3 partitioning. The input it generates must be of length 20,000, and contain each number from 1-20000 once.
@@ -221,6 +220,7 @@ void buildHeap ( std::vector<int>& heap){
     // //start of warpper function
     // auto start = std::chrono::steady_clock::now();
     // // algorth goes here
+    
     // //once median is found
     // auto end = std::chrono::steady_clock::now();
 
