@@ -165,17 +165,15 @@ void buildHeap ( std::vector<int>& heap){
     return nums[1];
  }
 
-//6) QuickSelect.hpp
-int quickSelect ( std::vector<int>& nums, int& duration ){
-
-
-}
-
-int medianof3(std::vector<int>& nums){ 
+iter medianof3(std::vector<int>& nums){ 
     auto left = nums.begin();
     auto right = nums.end()-1;
     auto mid = nums.begin() + nums.size()/2;
-    if(*mid < *left){
+    std::cout << "\n left num: " << *left << std::endl;
+    std::cout << "mid num: " << *mid << std::endl;
+    std::cout << "rightt num: " << *right << std::endl;
+
+    if(*mid < *left){//sort the 3 elements
         std::iter_swap(left,mid);
     }
     if(*right < *left){
@@ -184,16 +182,62 @@ int medianof3(std::vector<int>& nums){
     if(*right < *mid){
         std::iter_swap(mid,right);
     }
-    std::iter_swap(mid,right);
-    return *right;
+    std::iter_swap(mid,right);//place the median of the 3 at the end of the vector
+    std::cout << "mid?: " << *mid << std::endl;
+    std::cout << "right?" << *right << std::endl;
+    return right; //return iterator to the pivot
 }
 
 // hoarePartition precondition: low points to the first element in the subarray to be partitioned. The pivot is the last element in the subarray to be partitioned, and is pointed to by high.
 // hoarePartition returns an iterator to the pivot after it's placed.
 //Note that this implementation of hoarePartition makes it usable with different pivot selection methods, but also requires that you select your pivot and swap it into the last position prior to calling hoarePartition.
 std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
+    auto pivot = high; //in textbook high = j low =j
+    high--; //move j so that the pivot is always in last spot
+    for(;low>high;){
+        while(*low < *pivot){low++;};
+        while(*high > *pivot){high--;};
+        if(low<=high)
+            std::iter_swap(low,high);
+        else
+            break;
+    }
+
+    std::iter_swap(low+1,pivot);//swap pivot and i
+    return low;//new position of pivot
+}
+
+void quickRecursion(std::vector<int>& nums,iter left,iter right){
+    std::cout << "\n Distance: " << std::distance(left,right) << std::endl;
+    if(std::distance(left,right) <= 10){//base case
+        std::sort(left,right);
+        return;
+    }
+    std::cout << "pre partition" << std::endl;
+    auto pivot = hoarePartition(nums,left,medianof3(nums));
+
+    std::cout << "post partition" << std::endl;
+    std::cout << "Distance between partition: "<< std::distance(left,pivot) << std::endl;
+    quickRecursion(nums,left,pivot);
 
 }
+//6) QuickSelect.hpp
+int quickSelect ( std::vector<int>& nums, int& duration ){
+    //start of warpper function
+    auto start = std::chrono::steady_clock::now();
+    // algorth goes here
+    
+    quickRecursion(nums,nums.begin(),nums.end());
+    int mid = findMedianIndex(nums);
+    //once median is found
+    auto end = std::chrono::steady_clock::now();
+
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
+    duration = diff.count();
+    // return medain 
+    return nums[mid];
+}
+
 
 // //7) WorstCaseQuickSelect.hpp
 // // worstCaseQuickSelect generates a worst-case input for a quickselect that uses median-of-3 partitioning. The input it generates must be of length 20,000, and contain each number from 1-20000 once.
