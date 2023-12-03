@@ -94,7 +94,7 @@ int mergeSort ( std::vector<int>& nums, int& duration ){
 void inPlaceMerge(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
     //make sure to create left and right arrays this below should be in place
     if(std::distance(left,right) >1){
-        std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
+        iter mid = left + (std::distance(left,right)/2);
 
         inPlaceMerge(array,left,mid);
         inPlaceMerge(array,mid,right);
@@ -165,14 +165,9 @@ void buildHeap ( std::vector<int>& heap){
     return nums[1];
  }
 
-iter medianof3(std::vector<int>& nums){ 
-    auto left = nums.begin();
-    auto right = nums.end()-1;
-    auto mid = nums.begin() + nums.size()/2;
-    std::cout << "\n left num: " << *left << std::endl;
-    std::cout << "mid num: " << *mid << std::endl;
-    std::cout << "rightt num: " << *right << std::endl;
-
+iter medianof3(std::vector<int> arr, iter left, iter right){ 
+    iter mid = left + (std::distance(left,right))/2;
+    std::cout  << "\n Left: " << *left << "   Mid: " << *mid << "   right: " << *right;
     if(*mid < *left){//sort the 3 elements
         std::iter_swap(left,mid);
     }
@@ -182,10 +177,9 @@ iter medianof3(std::vector<int>& nums){
     if(*right < *mid){
         std::iter_swap(mid,right);
     }
-    std::iter_swap(mid,right);//place the median of the 3 at the end of the vector
-    std::cout << "mid?: " << *mid << std::endl;
-    std::cout << "right?" << *right << std::endl;
-    return right; //return iterator to the pivot
+    std::iter_swap(mid,right-1);//place the median of the 3 at the end of the vector
+    std::cout << "   Median of 3: " << *(right-1) << std::endl;
+    return right-1; //return iterator to the pivot
 }
 
 // hoarePartition precondition: low points to the first element in the subarray to be partitioned. The pivot is the last element in the subarray to be partitioned, and is pointed to by high.
@@ -194,30 +188,28 @@ iter medianof3(std::vector<int>& nums){
 std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
     auto pivot = high; //in textbook high = j low =j
     high--; //move j so that the pivot is always in last spot
-    for(;low>high;){
-        while(*low < *pivot){low++;};
-        while(*high > *pivot){high--;};
-        if(low<=high)
+    for(;;){
+        while(*low < *pivot){
+            low++;}
+        while(*high > *pivot){
+            high--;}
+        if(low < high){
             std::iter_swap(low,high);
+        }
         else
             break;
     }
 
-    std::iter_swap(low+1,pivot);//swap pivot and i
+    std::iter_swap(low,pivot);//swap pivot and i
     return low;//new position of pivot
 }
 
 void quickRecursion(std::vector<int>& nums,iter left,iter right){
-    std::cout << "\n Distance: " << std::distance(left,right) << std::endl;
     if(std::distance(left,right) <= 10){//base case
         std::sort(left,right);
         return;
     }
-    std::cout << "pre partition" << std::endl;
-    auto pivot = hoarePartition(nums,left,medianof3(nums));
-
-    std::cout << "post partition" << std::endl;
-    std::cout << "Distance between partition: "<< std::distance(left,pivot) << std::endl;
+    auto pivot = hoarePartition(nums,left,medianof3(nums,left,right));
     quickRecursion(nums,left,pivot);
 
 }
@@ -227,8 +219,9 @@ int quickSelect ( std::vector<int>& nums, int& duration ){
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
     
-    quickRecursion(nums,nums.begin(),nums.end());
+    quickRecursion(nums,nums.begin(),nums.end()-1);
     int mid = findMedianIndex(nums);
+    std::cout << "\nMid index: " << mid << std::endl;
     //once median is found
     auto end = std::chrono::steady_clock::now();
 
