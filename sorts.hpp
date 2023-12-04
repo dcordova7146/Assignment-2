@@ -167,7 +167,7 @@ void buildHeap ( std::vector<int>& heap){
 
 iter medianof3(std::vector<int> arr, iter left, iter right){ 
     iter mid = left + (std::distance(left,right))/2;
-    std::cout  << "\n Left: " << *left << "   Mid: " << *mid << "   right: " << *right;
+    //std::cout  << "\n Left: " << *left << "   Mid: " << *mid << "   right: " << *right;
     if(*mid < *left){//sort the 3 elements
         std::iter_swap(left,mid);
     }
@@ -178,7 +178,7 @@ iter medianof3(std::vector<int> arr, iter left, iter right){
         std::iter_swap(mid,right);
     }
     std::iter_swap(mid,right-1);//place the median of the 3 at the end of the vector
-    std::cout << "   Median of 3: " << *(right-1) << std::endl;
+    //std::cout << "   Median of 3: " << *(right-1) << std::endl;
     return right-1; //return iterator to the pivot
 }
 
@@ -201,12 +201,12 @@ std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<
             break;
     }
 
-    std::iter_swap(low,pivot);//swap pivot and i  -1 ruins?
+    std::iter_swap(low,pivot);//swap pivot textbook implementation increments regardless of tru comparison my version only on true thus i dont need to subrtact from pivot
     return low;//new position of pivot
 }   
-
+//median of 3 killer?
 void quickRecursion(std::vector<int>& nums,iter left,iter right,iter mid){
-    ; 
+    
     if(std::distance(left,right) <= 10){//base case
         std::sort(left,right);
         return;
@@ -228,17 +228,18 @@ int quickSelect ( std::vector<int>& nums, int& duration ){
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
     iter middle = nums.begin() + (std::distance(nums.begin(),nums.end()-2))/2;
-    int mid = findMedianIndex(nums);
+    //int mid = findMedianIndex(nums);
     quickRecursion(nums,nums.begin(),nums.end()-1,middle); // end points to 1 over the last element in list
     
-    std::cout << "\nMid index: " << mid << std::endl;
+    // std::cout << "\nMid index: " << mid << std::endl;
+    // std::cout << "\nMid iterator index: " << std::distance(nums.begin(),middle) << std::endl;
     //once median is found
     auto end = std::chrono::steady_clock::now();
 
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
     duration = diff.count();
     // return medain 
-    std::cout<< std::distance(nums.begin(),middle) << std::endl;
+    
     return *middle;
 }
 

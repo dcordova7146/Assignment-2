@@ -21,26 +21,26 @@ int main(){
     }
     inputFile.close();
 
-    // inputFile.open("heapsort1.txt");
-    // while (std::getline(inputFile, line)){
-    //     // Use a stringstream to tokenize the line into words
-    //     std::istringstream iss(line);
-    //     int numb;
-    //     while (iss >> numb){
-    //         halfHeaped.push_back(numb);
-    //     }
-    // }   
-    // inputFile.close();
+    inputFile.open("heapsort1.txt");
+    while (std::getline(inputFile, line)){
+        // Use a stringstream to tokenize the line into words
+        std::istringstream iss(line);
+        int numb;
+        while (iss >> numb){
+            halfHeaped.push_back(numb);
+        }
+    }   
+    inputFile.close();
 
-    // inputFile.open("quickselect1.txt");
-    // while (std::getline(inputFile, line)){
-    //     // Use a stringstream to tokenize the line into words
-    //     std::istringstream iss(line);
-    //     int numb;
-    //     while (iss >> numb){
-    //         quickselected.push_back(numb);
-    //     }
-    // }   
+    inputFile.open("quickselect1.txt");
+    while (std::getline(inputFile, line)){
+        // Use a stringstream to tokenize the line into words
+        std::istringstream iss(line);
+        int numb;
+        while (iss >> numb){
+            quickselected.push_back(numb);
+        }
+    }   
     inputFile.close();
     //print vector
     // int i =0;
@@ -105,7 +105,6 @@ int main(){
     std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
     duration = 0;
 
-
     //std::vector<int> test = {5,3,1,8,9,6,3};
     //std::vector<int> sTest = {6,8,9};
     // std::cout<< "real median: " << halfHeaped[0] << std::endl;
@@ -114,23 +113,29 @@ int main(){
     //     std::cout << storedWord << " , ";
         
         //print vector
-    //     std::cout<< std::endl;
-    // int i =0;
-    // for (const auto& storedWord : copy5){
-    //     if(i != 20)
-    //     {
-    //         std::cout << storedWord << " ";
-    //         i++;
-    //     }
-    //     i=0;
-    // }
+        std::cout<< std::endl;
+    int i =0;
+    for (const auto& storedWord : copy6){
+        if(i != 20)
+        {
+            std::cout << storedWord << " ";
+            i++;
+        }
+        i=0;
+    }
     std::cout<< std::endl;
     //Compare both vectors
-    if (copy6 == quickselected) {
-        std::cout << "Your algorithm produces correct results.\n";
+    if (copy5 == halfHeaped) {
+        std::cout << "Your HeapSort algorithm produces correct results.\n";
     } else {
-        std::cout << "Your algorithm produces incorrect results.\n";
+        std::cout << "Your HeapSort algorithm produces incorrect results.\n";
     }
+    if (copy6 == quickselected) {
+        std::cout << "Your Quick Select algorithm produces correct results.\n";
+    } else {
+        std::cout << "Your Quick Select algorithm produces incorrect results.\n";
+    }
+
 
 
     return 0;
