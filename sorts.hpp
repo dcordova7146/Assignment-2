@@ -188,10 +188,11 @@ iter medianof3(std::vector<int> arr, iter left, iter right){
 std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
     auto pivot = high; //in textbook high = j low =j
     high--; //move j so that the pivot is always in last spot
+    low++;
     for(;;){
         while(*low < *pivot){
             low++;}
-        while(*high > *pivot){
+        while(*high > *pivot){  
             high--;}
         if(low < high){
             std::iter_swap(low,high);
@@ -200,17 +201,25 @@ std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<
             break;
     }
 
-    std::iter_swap(low,pivot);//swap pivot and i
+    std::iter_swap(low,pivot);//swap pivot and i  -1 ruins?
     return low;//new position of pivot
-}
+}   
 
-void quickRecursion(std::vector<int>& nums,iter left,iter right){
+void quickRecursion(std::vector<int>& nums,iter left,iter right,iter mid){
+    ; 
     if(std::distance(left,right) <= 10){//base case
         std::sort(left,right);
         return;
     }
+
     auto pivot = hoarePartition(nums,left,medianof3(nums,left,right));
-    quickRecursion(nums,left,pivot);
+
+    //check where the pivot is in relation to the where the median should be and recurse only on that portion
+    if(mid <= pivot){
+        quickRecursion(nums,left,pivot-1,mid);
+    }else if(mid > pivot + 1){
+        quickRecursion(nums,pivot+1,right,mid);
+    }
 
 }
 //6) QuickSelect.hpp
@@ -218,9 +227,10 @@ int quickSelect ( std::vector<int>& nums, int& duration ){
     //start of warpper function
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
-    
-    quickRecursion(nums,nums.begin(),nums.end()-1);
+    iter middle = nums.begin() + (std::distance(nums.begin(),nums.end()-2))/2;
     int mid = findMedianIndex(nums);
+    quickRecursion(nums,nums.begin(),nums.end()-1,middle); // end points to 1 over the last element in list
+    
     std::cout << "\nMid index: " << mid << std::endl;
     //once median is found
     auto end = std::chrono::steady_clock::now();
@@ -228,7 +238,8 @@ int quickSelect ( std::vector<int>& nums, int& duration ){
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);
     duration = diff.count();
     // return medain 
-    return nums[mid];
+    std::cout<< std::distance(nums.begin(),middle) << std::endl;
+    return *middle;
 }
 
 

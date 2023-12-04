@@ -21,26 +21,26 @@ int main(){
     }
     inputFile.close();
 
-    inputFile.open("heapsort1.txt");
-    while (std::getline(inputFile, line)){
-        // Use a stringstream to tokenize the line into words
-        std::istringstream iss(line);
-        int numb;
-        while (iss >> numb){
-            halfHeaped.push_back(numb);
-        }
-    }   
-    inputFile.close();
+    // inputFile.open("heapsort1.txt");
+    // while (std::getline(inputFile, line)){
+    //     // Use a stringstream to tokenize the line into words
+    //     std::istringstream iss(line);
+    //     int numb;
+    //     while (iss >> numb){
+    //         halfHeaped.push_back(numb);
+    //     }
+    // }   
+    // inputFile.close();
 
-    inputFile.open("quickselect1.txt");
-    while (std::getline(inputFile, line)){
-        // Use a stringstream to tokenize the line into words
-        std::istringstream iss(line);
-        int numb;
-        while (iss >> numb){
-            quickselected.push_back(numb);
-        }
-    }   
+    // inputFile.open("quickselect1.txt");
+    // while (std::getline(inputFile, line)){
+    //     // Use a stringstream to tokenize the line into words
+    //     std::istringstream iss(line);
+    //     int numb;
+    //     while (iss >> numb){
+    //         quickselected.push_back(numb);
+    //     }
+    // }   
     inputFile.close();
     //print vector
     // int i =0;
