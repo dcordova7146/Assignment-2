@@ -1,5 +1,10 @@
-#include "sorts.hpp"
-
+#include "StandardSort.hpp"
+#include "HalfSelectionSort.hpp"
+#include "MergeSort.hpp"
+#include "InPlaceMergeSort.hpp"
+#include "HalfHeapSort.hpp"
+#include "QuickSelect.hpp"
+#include "WorstCaseQuickSelect.hpp"
 
 
 int main(){
@@ -114,15 +119,15 @@ int main(){
         
         //print vector
         std::cout<< std::endl;
-    int i =0;
-    for (const auto& storedWord : copy6){
-        if(i != 20)
-        {
-            std::cout << storedWord << " ";
-            i++;
-        }
-        i=0;
-    }
+    // int i =0;
+    // for (const auto& storedWord : copy6){
+    //     if(i != 20)
+    //     {
+    //         std::cout << storedWord << " ";
+    //         i++;
+    //     }
+    //     i=0;
+    // }
     std::cout<< std::endl;
     //Compare both vectors
     if (copy5 == halfHeaped) {

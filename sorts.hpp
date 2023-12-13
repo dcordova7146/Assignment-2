@@ -168,18 +168,28 @@ void buildHeap ( std::vector<int>& heap){
 iter medianof3(std::vector<int> arr, iter left, iter right){ 
     iter mid = left + (std::distance(left,right))/2;
     //std::cout  << "\n Left: " << *left << "   Mid: " << *mid << "   right: " << *right;
-    if(*mid < *left){//sort the 3 elements
-        std::iter_swap(left,mid);
-    }
-    if(*right < *left){
+    iter temp = right;
+    if(*left < *right && *left > *mid){
         std::iter_swap(left,right);
-    }
-    if(*right < *mid){
+    }else if(*right < *left && *right > *mid){
+        std::iter_swap(right,right);
+    }else{
         std::iter_swap(mid,right);
     }
-    std::iter_swap(mid,right-1);//place the median of the 3 at the end of the vector
-    //std::cout << "   Median of 3: " << *(right-1) << std::endl;
-    return right-1; //return iterator to the pivot
+
+    return right-1;
+    // if(*mid < *left){//sort the 3 elements
+    //     std::iter_swap(left,mid);
+    // }
+    // if(*right < *left){
+    //     std::iter_swap(left,right);
+    // }
+    // if(*right < *mid){
+    //     std::iter_swap(mid,right);
+    // }
+    // std::iter_swap(mid,right-1);//place the median of the 3 at the end of the vector
+    // //std::cout << "   Median of 3: " << *(right-1) << std::endl;
+    // return right-1; //return iterator to the pivot
 }
 
 // hoarePartition precondition: low points to the first element in the subarray to be partitioned. The pivot is the last element in the subarray to be partitioned, and is pointed to by high.
