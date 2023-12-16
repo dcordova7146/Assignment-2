@@ -9,6 +9,17 @@
 
 typedef std::vector<int>::iterator iter; 
 
+int findMedianIndexIPMS(std::vector<int>& nums){
+    int size = nums.size();
+    int mid = 0;
+    if(size %2 == 0){ //if even
+        mid = (size-1)/2;
+    }else{
+        mid = size/2;
+    }
+    return mid;
+}
+
 void inPlaceMerge(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
     //make sure to create left and right arrays this below should be in place
     if(std::distance(left,right) >1){
@@ -35,6 +46,6 @@ int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
     duration = diff.count();
 
     // return medain 
-    return nums[findMedianIndex(nums)];
+    return nums[findMedianIndexIPMS(nums)];
 
 }

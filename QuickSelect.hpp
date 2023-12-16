@@ -58,14 +58,12 @@ std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<
     std::iter_swap(low,pivot);//swap pivot textbook implementation increments regardless of tru comparison my version only on true thus i dont need to subrtact from pivot
     return low;//new position of pivot
 }   
-//median of 3 killer?
-void quickRecursion(std::vector<int>& nums,iter left,iter right,iter mid){
-    
+
+void quickRecursion(std::vector<int>& nums,iter left,iter right,iter mid){    
     if(std::distance(left,right) <= 10){//base case
         std::sort(left,right);
         return;
     }
-
     auto pivot = hoarePartition(nums,left,medianof3(nums,left,right));
 
     //check where the pivot is in relation to the where the median should be and recurse only on that portion
