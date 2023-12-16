@@ -20,14 +20,12 @@ int findMedianIndexIPMS(std::vector<int>& nums){
     return mid;
 }
 
-void inPlaceMerge(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
+void inPlaceMerge(std::vector<int>::iterator left, std::vector<int>::iterator right){
     //make sure to create left and right arrays this below should be in place
-    if(std::distance(left,right) >1){
-        iter mid = left + (std::distance(left,right)/2);
-
-        inPlaceMerge(array,left,mid);
-        inPlaceMerge(array,mid,right);
-
+    if(std::distance(left,right) > 1){
+        std::vector<int>::iterator mid = std::next(left, std::distance(left,right)/2);
+        inPlaceMerge(left,mid);
+        inPlaceMerge(mid,right);
 
         std::inplace_merge(left,mid,right);
     }
@@ -39,7 +37,7 @@ int inPlaceMergeSort ( std::vector<int>& nums, int& duration ){
     //start of warpper function
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
-    inPlaceMerge(nums,nums.begin(),nums.end());
+    inPlaceMerge(nums.begin(),nums.end());
     //once median is found
     auto end = std::chrono::steady_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);

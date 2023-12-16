@@ -19,10 +19,8 @@ int findMedianIndexMS(std::vector<int>& nums){
     return mid;
 }
 void merge(std::vector<int> array,std::vector<int>::iterator left, std::vector<int>::iterator right){
-    //make sure to create left and right arrays this below should be in place
-    
+    //make sure to create left and right arrays this below should be in place   
     if(std::distance(left, right) > 1){
-
         std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
 
         std::vector<int> leftHalf(left,mid);

@@ -147,9 +147,9 @@ int main(){
     // }
     //test merge sort
     std::cout<< std::endl;
-    for(int i =0;i<copy3.size();i++){
-        std::cout << "Pos: " << i << " | mysort: " << copy3[i] << " | justins: " << copy2[i] << " |"; 
-        if(copy3[i] == copy2[i]){
+    for(int i =0;i<copy4.size();i++){
+        std::cout << "Pos: " << i << " | mysort: " << copy4[i] << " | justins: " << copy2[i] << " |"; 
+        if(copy4[i] == copy2[i]){
             std::cout << " match " << std::endl;
         }else{
             std:: cout<< " no match" << std::endl;
