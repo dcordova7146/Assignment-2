@@ -1,7 +1,7 @@
 #include "StandardSort.hpp"
 #include "HalfSelectionSort.hpp"
-//#include "MergeSort.hpp"
-//#include "InPlaceMergeSort.hpp"
+#include "MergeSort.hpp"
+#include "InPlaceMergeSort.hpp"
 #include "HalfHeapSort.hpp"
 #include "QuickSelect.hpp"
 #include "WorstCaseQuickSelect.hpp"
@@ -91,34 +91,34 @@ int main(){
     auto cdiff = std::chrono::duration_cast<std::chrono::microseconds>(cend-cstart);
     int controlduration = cdiff.count();
     //print all data on the control sort
-    // std::cout << std::endl << "-Control-" << std::endl;
-    // std::cout << "Median: " << control[findMedianIndex(control)] << std::endl;
-    // std::cout << "Duration: " << controlduration << " Micro Seconds" << std::endl;
+    std::cout << std::endl << "-Control-" << std::endl;
+    std::cout << "Median: " << control[findMedianIndex(control)] << std::endl;
+    std::cout << "Duration: " << controlduration << " Micro Seconds" << std::endl;
 
     std::cout << std::endl << "-half selection sort-" << std::endl;
     std::cout << "Median: " << halfSelectionSort(copy1,duration) << std::endl;
     std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
     duration = 0;
 
-    // std::cout << std::endl << "-standard sort-" << std::endl;
-    // std::cout << "Median: " << standardSort(copy2,duration) << std::endl;
-    // std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
-    // duration = 0;
+    std::cout << std::endl << "-standard sort-" << std::endl;
+    std::cout << "Median: " << standardSort(copy2,duration) << std::endl;
+    std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
+    duration = 0;
 
-    // std::cout << std::endl << "-Merge sort-" << std::endl;
-    // std::cout << "Median: " << mergeSort(copy3,duration) << std::endl;
-    // std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
-    // duration = 0;
+    std::cout << std::endl << "-Merge sort-" << std::endl;
+    std::cout << "Median: " << mergeSort(copy3,duration) << std::endl;
+    std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
+    duration = 0;
 
     // std::cout << std::endl << "-in place merge sort-" << std::endl;
     // std::cout << "Median: " << inPlaceMergeSort(copy4,duration) << std::endl;
     // std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
     // duration = 0;
 
-    // std::cout << std::endl << "-half heap sort-" << std::endl;
-    // std::cout << "Median: " << halfHeapSort(copy5,duration) << std::endl;
-    // std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
-    // duration = 0;
+    std::cout << std::endl << "-half heap sort-" << std::endl;
+    std::cout << "Median: " << halfHeapSort(copy5,duration) << std::endl;
+    std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
+    duration = 0;
 
     // std::cout << std::endl << "-Quick Select sort-" << std::endl;
     // std::cout << "Median: " << quickSelect(copy6,duration) << std::endl;
@@ -134,9 +134,9 @@ int main(){
         
     //print vector
     std::cout<< std::endl;
-    for(int i =0;i<copy1.size();i++){
-        std::cout << "Pos: " << i << " | mysort: " << copy1[i] << " | justins: " << selectsorted[i] << " |"; 
-        if(copy1[i] == selectsorted[i]){
+    for(int i =0;i<copy5.size();i++){
+        std::cout << "Pos: " << i << " | mysort: " << copy5[i] << " | justins: " << halfHeaped[i] << " |"; 
+        if(copy5[i] == halfHeaped[i-1]){
             std::cout << " match " << std::endl;
         }else{
             std:: cout<< " no match" << std::endl;
