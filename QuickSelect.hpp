@@ -12,16 +12,28 @@ typedef std::vector<int>::iterator iter;
 iter medianof3(std::vector<int> arr, iter left, iter right){ 
     iter mid = left + (std::distance(left,right))/2;
     //std::cout  << "\n Left: " << *left << "   Mid: " << *mid << "   right: " << *right;
-    iter temp = right;
-    if(*left < *right && *left > *mid){
-        std::iter_swap(left,right);
-    }else if(*right < *left && *right > *mid){
-        std::iter_swap(right,right);
-    }else{
-        std::iter_swap(mid,right);
+    //edge case all 3 are equal use the left as the mid
+    if(*left == *mid || *left == *right || *right == *mid) {
+        std::iter_swap(left, right);
+        return right-1;
     }
-
-    return right-1;
+    //left is median
+    if((*mid < *left && *left < *right) || (*right < *left && *left < *mid)){
+        std::iter_swap(left,right);
+        return right-1;
+    }//mid is the median
+    else if((*left < *mid && *mid < *right) || (*right < *mid && *mid < *left)){
+        std::iter_swap(mid,right);
+        return right-1;
+    }else
+        return right-1; //right is implicitly the median of the three
+    // if(*left < *right && *left > *mid){
+    //     std::iter_swap(left,right);
+    // }else if(*right < *left && *right > *mid){
+    //     std::iter_swap(right,right);
+    // }else{
+    //     std::iter_swap(mid,right);
+    // }
     // if(*mid < *left){//sort the 3 elements
     //     std::iter_swap(left,mid);
     // }

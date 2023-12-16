@@ -110,20 +110,20 @@ int main(){
     std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
     duration = 0;
 
-    // std::cout << std::endl << "-in place merge sort-" << std::endl;
-    // std::cout << "Median: " << inPlaceMergeSort(copy4,duration) << std::endl;
-    // std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
-    // duration = 0;
+    std::cout << std::endl << "-in place merge sort-" << std::endl;
+    std::cout << "Median: " << inPlaceMergeSort(copy4,duration) << std::endl;
+    std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
+    duration = 0;
 
     std::cout << std::endl << "-half heap sort-" << std::endl;
     std::cout << "Median: " << halfHeapSort(copy5,duration) << std::endl;
     std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
     duration = 0;
 
-    // std::cout << std::endl << "-Quick Select sort-" << std::endl;
-    // std::cout << "Median: " << quickSelect(copy6,duration) << std::endl;
-    // std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
-    // duration = 0;
+    std::cout << std::endl << "-Quick Select sort-" << std::endl;
+    std::cout << "Median: " << quickSelect(copy6,duration) << std::endl;
+    std::cout << "Duration: " << duration << " Micro seconds" <<std::endl;
+    duration = 0;
 
     //std::vector<int> test = {5,3,1,8,9,6,3};
     //std::vector<int> sTest = {6,8,9};
@@ -133,10 +133,23 @@ int main(){
     //     std::cout << storedWord << " , ";
         
     //print vector
+    //test quickselect
+    //std::cout<< std::endl;
+    // for(int i =0;i<copy6.size();i++){
+    //     std::cout << "Pos: " << i << " | mysort: " << copy6[i] << " | justins: " << quickselected[i] << " |"; 
+    //     if(copy6[i] == quickselected[i]){
+    //         std::cout << " match " << std::endl;
+    //     }else{
+    //         std:: cout<< " no match" << std::endl;
+    //     }
+        
+        
+    // }
+    //test merge sort
     std::cout<< std::endl;
-    for(int i =0;i<copy5.size();i++){
-        std::cout << "Pos: " << i << " | mysort: " << copy5[i] << " | justins: " << halfHeaped[i] << " |"; 
-        if(copy5[i] == halfHeaped[i-1]){
+    for(int i =0;i<copy3.size();i++){
+        std::cout << "Pos: " << i << " | mysort: " << copy3[i] << " | justins: " << copy2[i] << " |"; 
+        if(copy3[i] == copy2[i]){
             std::cout << " match " << std::endl;
         }else{
             std:: cout<< " no match" << std::endl;

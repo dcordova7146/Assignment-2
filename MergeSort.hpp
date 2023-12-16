@@ -25,12 +25,11 @@ void merge(std::vector<int> array,std::vector<int>::iterator left, std::vector<i
 
         std::vector<int>::iterator mid = left + (std::distance(left,right)/2);
 
-        merge(array,left,mid);
-        merge(array,mid,right);
-
         std::vector<int> leftHalf(left,mid);
         std::vector<int> rightHalf(mid,right);
 
+        merge(leftHalf,leftHalf.begin(),leftHalf.end());
+        merge(rightHalf,rightHalf.begin(),rightHalf.end());
 
         std::merge(leftHalf.begin(),leftHalf.end(),rightHalf.begin(),rightHalf.end(),left);
     }  
