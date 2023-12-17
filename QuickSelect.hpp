@@ -9,95 +9,84 @@
 
 typedef std::vector<int>::iterator iter; 
 
+int findMedianIndexQS(std::vector<int>& nums){
+    int size = nums.size();
+    int mid = 0;
+    if(size %2 == 0){ //if even
+        mid = (size-1)/2;
+    }else{
+        mid = size/2;
+    }
+    return mid;
+}
+
 iter medianof3(std::vector<int> arr, iter left, iter right){ 
     iter mid = left + (std::distance(left,right))/2;
-    //std::cout  << "\n Left: " << *left << "   Mid: " << *mid << "   right: " << *right;
     //edge case all 3 are equal use the left as the mid
     if(*left == *mid || *left == *right || *right == *mid) {
         std::iter_swap(left, right);
-        return right-1;
+        return right;
     }
     //left is median
     if((*mid < *left && *left < *right) || (*right < *left && *left < *mid)){
         std::iter_swap(left,right);
-        return right-1;
+        
     }//mid is the median
     else if((*left < *mid && *mid < *right) || (*right < *mid && *mid < *left)){
         std::iter_swap(mid,right);
-        return right-1;
-    }else
-        return right-1; //right is implicitly the median of the three
-    // if(*left < *right && *left > *mid){
-    //     std::iter_swap(left,right);
-    // }else if(*right < *left && *right > *mid){
-    //     std::iter_swap(right,right);
-    // }else{
-    //     std::iter_swap(mid,right);
-    // }
-    // if(*mid < *left){//sort the 3 elements
-    //     std::iter_swap(left,mid);
-    // }
-    // if(*right < *left){
-    //     std::iter_swap(left,right);
-    // }
-    // if(*right < *mid){
-    //     std::iter_swap(mid,right);
-    // }
-    // std::iter_swap(mid,right-1);//place the median of the 3 at the end of the vector
-    // //std::cout << "   Median of 3: " << *(right-1) << std::endl;
-    // return right-1; //return iterator to the pivot
-}
+        
+    }
+    return right; //right is implicitly the median of the three
 
+}
 // hoarePartition precondition: low points to the first element in the subarray to be partitioned. The pivot is the last element in the subarray to be partitioned, and is pointed to by high.
 // hoarePartition returns an iterator to the pivot after it's placed.
 //Note that this implementation of hoarePartition makes it usable with different pivot selection methods, but also requires that you select your pivot and swap it into the last position prior to calling hoarePartition.
 std::vector<int>::iterator hoarePartition ( std::vector<int>& nums, std::vector<int>::iterator low, std::vector<int>::iterator high ){
-    auto pivot = high; //in textbook high = j low =j
-    high--; //move j so that the pivot is always in last spot
-    low++;
-    for(;;){
-        while(*low < *pivot){
-            low++;}
-        while(*high > *pivot){  
-            high--;}
-        if(low < high){
-            std::iter_swap(low,high);
+    int pivot = *high; //in textbook high = j low =j
+    auto j = high -1 ; //move j so that the pivot is always in last spot
+    auto i = low;
+    
+    while(true){
+        while(*i < pivot&& i<high){ //while the value at i is less than pivot move to next index and as long as the left pointer has not crossed right
+            i++;
         }
-        else
-            break;
+        while(*j > pivot&& j>low){ // while the value at j is greater than pivot move down and as long as right pointer has not crossed left
+            j--;
+        }
+        if(i>=j){ //if pointers have crossed
+            std::swap(*i,*high);
+            return i; // return pointer to pivot
+        }
+        std::swap(*i,*j);//value at i is greater than value at j so swap them 
+        i++; j--;
     }
-
-    std::iter_swap(low,pivot);//swap pivot textbook implementation increments regardless of tru comparison my version only on true thus i dont need to subrtact from pivot
-    return low;//new position of pivot
 }   
-
 void quickRecursion(std::vector<int>& nums,iter left,iter right,iter mid){    
-    if(std::distance(left,right) <= 10){//base case
-        std::sort(left,right);
-        return;
-    }
+   if(left + 10 <=right){
     auto pivot = hoarePartition(nums,left,medianof3(nums,left,right));
 
     //check where the pivot is in relation to the where the median should be and recurse only on that portion
     if(mid <= pivot){
         quickRecursion(nums,left,pivot-1,mid);
-    }else if(mid > pivot + 1){
+    }else if(mid >pivot + 1){
         quickRecursion(nums,pivot+1,right,mid);
     }
-
+   }else{
+    std::sort(left,right+1);
+    return;
+   }
 }
 //6) QuickSelect.hpp
 int quickSelect ( std::vector<int>& nums, int& duration ){
     //start of warpper function
     auto start = std::chrono::steady_clock::now();
     // algorth goes here
-    iter middle = nums.begin() + (std::distance(nums.begin(),nums.end()-2))/2;
-    //int mid = findMedianIndex(nums);
+    int fmid = findMedianIndexQS(nums);
+    std::vector<int>::iterator middle = nums.begin() + fmid ;
+
     quickRecursion(nums,nums.begin(),nums.end()-1,middle); // end points to 1 over the last element in list
-    
-    // std::cout << "\nMid index: " << mid << std::endl;
-    // std::cout << "\nMid iterator index: " << std::distance(nums.begin(),middle) << std::endl;
-    //once median is found
+
     auto end = std::chrono::steady_clock::now();
 
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end-start);

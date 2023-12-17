@@ -134,22 +134,13 @@ int main(){
         
     //print vector
     //test quickselect
-    //std::cout<< std::endl;
-    // for(int i =0;i<copy6.size();i++){
-    //     std::cout << "Pos: " << i << " | mysort: " << copy6[i] << " | justins: " << quickselected[i] << " |"; 
-    //     if(copy6[i] == quickselected[i]){
-    //         std::cout << " match " << std::endl;
-    //     }else{
-    //         std:: cout<< " no match" << std::endl;
-    //     }
-        
-        
-    // }
-    //test merge sort
     std::cout<< std::endl;
-    for(int i =0;i<copy4.size();i++){
-        std::cout << "Pos: " << i << " | mysort: " << copy4[i] << " | justins: " << copy2[i] << " |"; 
-        if(copy4[i] == copy2[i]){
+    for(int i =0;i<copy6.size();i++){
+        std::cout << "Pos: " << i << " | mysort: " << copy6[i] << " | justins: " << quickselected[i] << " |"; 
+        if(copy6[i] == 50492874){
+            std::cout<< "JBLBFKLAJNFKASNFKLANSFKLJNASKLFNLAK";
+        }
+        if(copy6[i] == quickselected[i]){
             std::cout << " match " << std::endl;
         }else{
             std:: cout<< " no match" << std::endl;
@@ -157,6 +148,18 @@ int main(){
         
         
     }
+    //test merge sort
+    // std::cout<< std::endl;
+    // for(int i =0;i<copy4.size();i++){
+    //     std::cout << "Pos: " << i << " | mysort: " << copy4[i] << " | justins: " << copy2[i] << " |"; 
+    //     if(copy4[i] == copy2[i]){
+    //         std::cout << " match " << std::endl;
+    //     }else{
+    //         std:: cout<< " no match" << std::endl;
+    //     }
+        
+        
+    // }
     // int i =0;
     // for (const auto& storedWord : copy6){
     //     if(i != 20)
